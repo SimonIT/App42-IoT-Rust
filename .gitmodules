@@ -1,0 +1,3 @@
+[submodule "app42-iot-sys/App42_IoT_SDK"]
+	path = app42-iot-sys/App42_IoT_SDK
+	url = https://github.com/shephertz/App42_IoT_SDK.git

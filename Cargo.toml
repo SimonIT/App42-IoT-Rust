@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "app42-iot-sys",
+    "app42-iot"
+]
+resolver = "2"
