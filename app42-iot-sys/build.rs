@@ -31,12 +31,21 @@ fn main() {
     // Tell cargo to invalidate the built crate whenever the header changes.
     println!("cargo:rerun-if-changed={}", headers_path_str);
 
+    let modules = libdir_path.read_dir().unwrap().filter(|e| e.is_ok())
+        .flat_map(|e| {
+            let path = e.unwrap().path();
+            let path_str = path.to_str().unwrap().to_string();
+            vec!["-I".to_string(), path_str]
+        })
+        .collect::<Vec<_>>();
+
     // Run `clang` to compile the `hello.c` file into a `hello.o` object file.
     // Unwrap if it is not possible to spawn the process.
     if !std::process::Command::new("clang++")
         .arg("-c")
         .arg("-o")
         .arg(&obj_path)
+        .args(&modules)
         .arg(libdir_path.join("Common/App42API.cpp"))
         .output()
         .expect("could not spawn `clang`")
@@ -70,10 +79,13 @@ fn main() {
         // bindings for.
         .header(headers_path_str)
         .allowlist_file(headers_path_str)
-        .clang_arg("-xc++")
+        .clang_arg("-x")
+        .clang_arg("c++")
+        .clang_args(modules)
         // Tell cargo to invalidate the built crate whenever any of the
         // included header files changed.
         .parse_callbacks(Box::new(CargoCallbacks::new()))
+        .use_core()
         // Finish the builder and generate the bindings.
         .generate()
         // Unwrap the Result and panic on failure.
