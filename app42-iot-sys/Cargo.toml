@@ -3,7 +3,7 @@ name = "app42-iot-sys"
 version = "0.1.0"
 edition = "2021"
 
-description = "Rust FFI wrappers for the App42 IoT C SDK"
+description = "Rust FFI wrappers for the App42 IoT SDK"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

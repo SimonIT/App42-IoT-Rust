@@ -82,6 +82,11 @@ fn main() {
         .clang_arg("-x")
         .clang_arg("c++")
         .clang_args(modules)
+        .clang_arg("-frtti")
+        .clang_arg("-std=c++11")
+        .clang_arg("-fsigned-char")
+        .clang_arg("-fexceptions")
+        .opaque_type("std::.*")
         // Tell cargo to invalidate the built crate whenever any of the
         // included header files changed.
         .parse_callbacks(Box::new(CargoCallbacks::new()))
