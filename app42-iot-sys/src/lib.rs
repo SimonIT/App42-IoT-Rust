@@ -1,6 +1,8 @@
-#![no_std]
-#![allow(non_upper_case_globals)]
-#![allow(non_camel_case_types)]
-#![allow(non_snake_case)]
+use autocxx::include_cpp;
+use ffi::*;
 
-include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
+include_cpp! {
+    #include "Common/App42API.h"
+    safety!(unsafe)
+    generate!("App42API")
+}

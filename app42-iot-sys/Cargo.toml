@@ -8,6 +8,9 @@ description = "Rust FFI wrappers for the App42 IoT SDK"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+cxx = "1.0.78"
+autocxx = "0.26.0"
 
 [build-dependencies]
-bindgen = "0.69.1"
+autocxx-build = "0.26.0"
+miette = { version = "5", features = ["fancy"] }
