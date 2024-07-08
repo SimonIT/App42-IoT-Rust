@@ -1,20 +1,14 @@
 #![feature(iter_intersperse)]
 
-use std::env;
-
 fn main() -> miette::Result<()> {
     let path = std::path::PathBuf::from("App42_IoT_SDK/V_1.0/App42");
 
-    let modules = env::join_paths(
-        path.read_dir()
+    let modules = path.read_dir()
         .unwrap()
         .filter(|e| e.is_ok())
-        .map(|e| e.unwrap().path().canonicalize().unwrap().into_os_string())
-    ).unwrap();
+        .map(|e| e.unwrap().path().into_os_string());
 
-    unsafe { env::set_var("CPLUS_INCLUDE_PATH", modules); }
-
-    let mut b = autocxx_build::Builder::new("src/lib.rs", [&path]).build()?;
+    let mut b = autocxx_build::Builder::new("src/lib.rs", modules).build()?;
     b.flag_if_supported("-frtti")
         .flag_if_supported("-std=c++14")
         .flag_if_supported("-fsigned-char")
